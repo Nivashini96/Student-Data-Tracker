@@ -1,0 +1,156 @@
+package studentdatatracker;
+
+import java.util.ArrayList;
+import java.util.Scanner;
+
+public class StudentManager {
+	ArrayList<Student> information=new ArrayList<>();
+	
+
+	public void addStudent(Scanner scan) {
+		System.out.println("enter your name : ");
+		String name=scan.nextLine();
+		System.out.println("enter your rollno : ");
+		int rollno=scan.nextInt();
+		scan.nextLine();
+		System.out.println("enter your dpt : ");
+		String dpt=scan.nextLine();
+		System.out.println("enter your email : ");
+		String email=scan.nextLine();
+		System.out.println("enter your marks : ");
+		int[] marks=new int[5];
+		
+		for(int i=0;i<5;i++) {
+			marks[i]= scan.nextInt();
+		}
+		
+		Student obj=new Student(name,rollno,dpt,email,marks);
+		information.add(obj);
+		System.out.println("Student added successfully!");
+		
+	}
+
+
+	public void viewAllStudents() {
+		if(information.isEmpty()) {
+			System.out.println("No students available.");
+			return ;
+		}
+		for(Student i :information) {
+			System.out.println("Name "+i.getName());
+		System.out.println("Rollno "+i.getRollno());
+		System.out.println("Dpt "+i.getDept());
+		System.out.println("email "+i.getEmail());
+		System.out.println("Rollno "+i.getRollno());
+		System.out.println("Marks "+i.getMarks());
+		for(int marks : i.getMarks()) {
+			System.out.print(marks+ " ");
+		}
+		System.out.println("information viewed Successfully");
+		}	
+	}
+	public void searchStudent(int searchRoll) {
+		for (Student s : information) {
+            if (s.getRollno() == searchRoll) {
+                System.out.println("Student found:");
+                System.out.println("Name: " + s.getName());
+                System.out.println("Roll Number: " + s.getRollno());
+                System.out.println("Department: " + s.getDept());
+                System.out.println("Email: " + s.getEmail());
+                System.out.print("Marks: ");
+                for (int mark : s.getMarks()) {
+                    System.out.print(mark + " ");
+                }
+                System.out.println();
+                return;
+            }
+		}
+		System.out.println("Student with roll number " + searchRoll + " not found.");
+		
+	}
+   public void deleteStudent(int deleteRoll) {
+		for (Student s : information) {
+            if (s.getRollno() == deleteRoll) {
+                information.remove(s);
+                System.out.println("Student with roll number " + deleteRoll + " has been deleted.");
+                return;
+            }
+        }
+        System.out.println("Student with roll number " + deleteRoll + " not found.");
+		
+	}
+
+
+	public void updateStudent(int updateRoll,Scanner scan) {
+		for (Student s : information) {
+            if (s.getRollno() == updateRoll) {
+                System.out.println("Updating details for " + s.getName());
+                scan.nextLine();
+                System.out.print("Enter new name: ");
+                String name = scan.nextLine();
+                s.setName(name);
+
+                System.out.print("Enter new department: ");
+                String dept = scan.nextLine();
+                s.setDept(dept);
+
+                System.out.print("Enter new email: ");
+                String email = scan.nextLine();
+                s.setEmail(email);
+
+                System.out.println("Enter new marks for 5 subjects: ");
+                int[] marks = new int[5];
+                for (int i = 0; i < 5; i++) {
+                    System.out.print("Mark " + (i + 1) + ": ");
+                    marks[i] = scan.nextInt();
+                }
+                scan.nextLine(); 
+                s.setMarks(marks);
+
+                System.out.println("Student information updated successfully.");
+                return;
+            }
+        }
+        System.out.println("Student with roll number " + updateRoll + " not found.");
+    }
+		
+		
+
+
+
+	public void displayTopPerformer() {
+		if (information.isEmpty()) {
+            System.out.println("No students available.");
+            return;
+        }
+		Student topStudent = information.get(0);
+        int highestSum = sumOfMarks(topStudent.getMarks());
+
+        for (Student s : information) {
+            int total = sumOfMarks(s.getMarks());
+            if (total > highestSum) {
+                topStudent = s;
+                highestSum = total;
+            }
+        }
+
+        System.out.println("Top Performer:");
+        System.out.println("Name: " + topStudent.getName());
+        System.out.println("Roll Number: " + topStudent.getRollno());
+        System.out.println("Department: " + topStudent.getDept());
+        System.out.println("Email: " + topStudent.getEmail());
+        System.out.println("Total Marks: " + highestSum);
+    }
+
+
+	private int sumOfMarks(int[] marks) {
+		int sum = 0;
+        for (int mark : marks) {
+            sum += mark;
+        }
+       
+		return 0;
+	}
+
+}
+	
